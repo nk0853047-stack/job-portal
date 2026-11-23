@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Recruiter Profile - JobPortal</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2f7fd;
+            color: #183153;
+        }
+
+        nav {
+            background: #ffffff;
+            min-height: 76px;
+            padding: 20px 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #e5edf7;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #174578;
+        }
+
+        .logo span {
+            color: #19a878;
+        }
+
+        .navlinks {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+        }
+
+        .navlinks a {
+            color: #183153;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .navlinks a:hover {
+            color: #19a878;
+        }
+
+        .profile-container {
+            max-width: 950px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .profile-card {
+            background: #ffffff;
+            padding: 35px 30px;
+            border-radius: 18px;
+            box-shadow: 0 8px 30px rgba(31, 67, 105, 0.08);
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .profile-icon {
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 12px;
+            border-radius: 50%;
+            background: #edf0ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 35px;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin: 10px 0;
+            color: #183153;
+        }
+
+        .subtitle {
+            color: #71839d;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            font-size: 14px;
+            color: #183153;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 15px;
+            border: 1px solid #ceddf0;
+            border-radius: 12px;
+            background: #f7faff;
+            font-size: 15px;
+            font-family: inherit;
+            color: #183153;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #2863a5;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(40, 99, 165, 0.10);
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        .submit-area {
+            margin-top: 28px;
+            text-align: center;
+        }
+
+        .primary {
+            display: inline-block;
+            background: #194578;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .primary:hover {
+            background: #12345b;
+            transform: translateY(-1px);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #194578;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        @media (max-width: 650px) {
+            nav {
+                padding: 18px 5%;
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            .navlinks {
+                gap: 15px;
+                flex-wrap: wrap;
+            }
+
+            .profile-container {
+                margin: 20px auto;
+                padding: 0 12px;
+            }
+
+            .profile-card {
+                padding: 25px 18px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .full-width {
+                grid-column: auto;
+            }
+
+            h1 {
+                font-size: 27px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">job<span>portal</span></div>
+
+        <div class="navlinks">
+            <a href="{{ url_for('Recruiter_dashboard') }}">Dashboard</a>
+            <a href="/">Website</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
+
+    <main class="profile-container">
+
+        <div class="profile-card">
+
+            <div class="profile-header">
+
+                <div class="profile-icon">🏢</div>
+
+                <h1>Recruiter Profile</h1>
+
+                <p class="subtitle">
+                    Complete your job details to find the right candidates.
+                </p>
+
+            </div>
+
+            <form action="{{ url_for('post_job') }}" method="POST">
+
+                <div class="form-grid">
+
+                    <div class="form-group"> <label>💼 Job Title</label> <input type="text" name="title"
+                            placeholder="e.g. Python Developer Intern" required> </div>
+
+                    <div class="form-group"> <label>🏢 Company Name</label> <input type="text" name="company"
+                            placeholder="e.g. TechNova Labs" required> </div>
+
+                    <div class="form-group"> <label>📍 Location</label> <input type="text" name="location"
+                            placeholder="e.g. Bengaluru / Remote" required> </div>
+
+                    <div class="form-group"> <label>🧑‍💼 Job Type</label> <select name="job_type" required>
+                            <option value="">Select Job Type</option>
+                            <option>Full-time</option>
+                            <option>Part-time</option>
+                        </select> </div>
+                    <div class="form-group"> <label>💰 Salary </label> <input type="text" name="salary"
+                            placeholder="e.g. ₹15,000 / month" required> </div>
+
+                    <div class="form-group"> <label>⏱ Time</label> <input type="text" name="duration"
+                            placeholder="10:00Am to 6:00Pm" required> </div>
+                    <div class="form-group"> <label>🎓 Experience Required</label> <select name="experience">
+                            <option value="">Select Experience</option>
+                            <option>Fresher</option>
+                            <option>0–1 Years</option>
+                            <option>1–2 Years</option>
+                            <option>2–5 Years</option>
+                            <option>5+ Years</option>
+                        </select> </div>
+                        <!-- Application Start Date -->
+                        <div class="form-group">
+                            <label for="start_date">📅 Application Start Date</label>
+                            <input type="date" name="start_date" id="start_date" required>
+                        </div>
+                        
+                        <!-- Application Deadline -->
+                        <div class="form-group">
+                            <label for="deadline">📅 Last Date to Apply</label>
+                            <input type="date" name="deadline" id="deadline" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group full-width"> <label>🛠 Required Skills</label> <input type="text" name="skills"
+                        placeholder="e.g. Python, Flask, SQL, HTML, CSS" required> <small>Separate multiple skills using
+                        commas.</small> </div>
+                <label for="qualification">Required Qualification</label>
+
+                <select name="qualification" id="qualification" required>
+                    <option value="Any Graduate">Any Graduate</option>
+                    <option value="B.Tech">B.Tech</option>
+                    <option value="BCA">BCA</option>
+                    <option value="B.Sc">B.Sc</option>
+                    <option value="B.Com">B.Com</option>
+                    <option value="MBA">MBA</option>
+                    <option value="MCA">MCA</option>
+                    <option value="12th Pass">12th Pass</option>
+                </select>
+                <div class="form-group full-width"> <label>📝 Job Description</label> <textarea name="description"
+                        rows="5" placeholder="Describe the role, responsibilities and requirements..."
+                        required></textarea> </div>
+
+                <div class="submit-area">
+                    <button type="submit" class="primary">
+                        Publish Job →
+                    </button>
+                </div>
+
+            </form>
+
+            <div style="text-align:center;">
+                <a href="{{ url_for('Recruiter_dashboard') }}" class="back-link">
+                    ← Back to Dashboard
+                </a>
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+<!-- Success Popup -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<div class="popup-overlay" id="successPopup">
+    <div class="popup-box">
+        <div class="popup-icon">✓</div>
+
+        <h2>
+            {% if category == 'success' %}
+            Successfully!
+            {% else %}
+            Error!
+            {% endif %}
+        </h2>
+
+        <p>{{ message }}</p>
+
+        <button onclick="closePopup()">OK</button>
+    </div>
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<style>
+    .popup-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.55);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 99999;
+        padding: 20px;
+    }
+
+    .popup-box {
+        background: white;
+        width: 350px;
+        max-width: 100%;
+        padding: 35px 25px;
+        border-radius: 18px;
+        text-align: center;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+        animation: popupShow 0.3s ease;
+    }
+
+    .popup-icon {
+        width: 75px;
+        height: 75px;
+        line-height: 75px;
+        border-radius: 50%;
+        background: #d1fae5;
+        color: #059669;
+        font-size: 45px;
+        font-weight: bold;
+        margin: 0 auto 20px;
+    }
+
+    .popup-box h2 {
+        color: #065f46;
+        margin-bottom: 12px;
+    }
+
+    .popup-box p {
+        color: #555;
+        font-size: 16px;
+        margin-bottom: 25px;
+    }
+
+    .popup-box button {
+        background: #198754;
+        color: white;
+        border: none;
+        padding: 12px 35px;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .popup-box button:hover {
+        background: #146c43;
+    }
+
+    @keyframes popupShow {
+        from {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+</style>
+
+<script>
+    function closePopup() {
+        const popup = document.getElementById('successPopup');
+
+        if (popup) {
+            popup.remove();
+        }
+    }
+</script>
+
+</html>

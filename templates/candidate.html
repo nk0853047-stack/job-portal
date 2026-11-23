@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>Candidate Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body>
+
+
+    <nav>
+
+        <div class="logo">
+
+            job<span>portal</span>
+
+        </div>
+
+
+        <div class="navlinks">
+
+            <a href="/jobs">
+                Find jobs
+            </a>
+
+            <a href="/dashboard">
+                My Applications
+            </a>
+            <a href="{{ url_for('profile') }}">
+                My Profile
+            </a>
+            <a href="/logout" class="login-link">
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <main class="page">
+
+
+        <p class="eyebrow">
+
+            CANDIDATE DASHBOARD
+
+        </p>
+
+
+        <h1>
+
+            Welcome, Candidate 👋
+
+        </h1>
+
+
+        <p class="muted">
+
+            {{ email }}
+
+        </p>
+
+
+
+        <div class="dashboard-card">
+
+            <div class="dashboard-icon">
+
+                🎓
+
+            </div>
+
+            <div>
+
+                <h3>
+
+                    Start Your Career Journey
+
+                </h3>
+
+                <p>
+
+                    Search jobs and apply
+                    for your dream opportunity.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <h2>
+            Recommended Jobs
+            {% if qualification %}
+            for {{ qualification|upper }}
+            {% endif %}
+        </h2>
+        <div class="recommended-jobs">
+
+            {% if jobs %}
+
+            {% for job in jobs %}
+
+            <div class="job-card">
+
+                <div class="job-info">
+
+                    <h3>{{ job[1] }}</h3>
+
+                    <p class="company">
+                        🏢 {{ job[2] }}
+                    </p>
+
+                    <p>
+                        📍 {{ job[3] }}
+                    </p>
+
+                    <p>
+                        💰 {{ job[4] }}
+                    </p>
+
+                    <p>
+                        💼 {{ job[5] }}
+                    </p>
+
+                    <p class="skills">
+                        🛠️ {{ job[6] }}
+                    </p>
+
+                </div>
+
+                <!-- Application Dates -->
+                {% if job['start_date'] or job['deadline'] %}
+
+                <div class="application-dates">
+                    {% if job|length > 9 and job[8] %} <p> 📅 <strong>Apply From:</strong> {{ job[8] }} </p> {% endif %}
+
+                    {% if job['start_date'] %}
+                    <p>
+                        📅 <strong>Application Starts:</strong>
+                        {{ job['start_date'] }}
+                    </p>
+                    {% endif %}
+
+                    {% if job['deadline'] %}
+                    <p>
+                        ⏰ <strong>Last Date to Apply:</strong>
+                        {{ job['deadline'] }}
+                    </p>
+                    {% endif %}
+
+                </div>
+
+                {% else %}
+
+                <p class="application-dates">
+                    📅 Application dates not available
+                </p>
+
+                {% endif %}
+
+                <div class="job-action">
+
+                    <a href="{{ url_for('apply', job_id=job[0]) }}" class="apply-btn">
+                        Apply Now
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+            {% else %}
+
+            <p class="no-jobs">
+                No jobs matching your qualification were found.
+                Please update your education in My Profile.
+            </p>
+            {% endif %}
+
+        </div>
+
+    </main>
+
+
+</body>
+
+</html>

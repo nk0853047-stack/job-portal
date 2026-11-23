@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>Recruiter Dashboard</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body>
+
+
+    <nav>
+
+        <div class="logo">
+
+            job<span>portal</span>
+
+        </div>
+
+
+        <div class="navlinks">
+
+            <a href="/">
+                Website
+            </a>
+
+            <a href="/recruiter">
+                Manage Jobs
+            </a>
+
+            <a href="/logout" class="login-link">
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <main class="page">
+
+
+        <p class="eyebrow">
+
+            Recruiter DASHBOARD
+
+        </p>
+
+
+        <h1>
+
+            Welcome, Recruiter 🏢
+
+        </h1>
+
+
+        <p class="muted">
+
+            {{ email }}
+
+        </p>
+
+
+
+        <div class="dashboard-stats">
+
+            <a href="/recruiter/active-jobs" class="dashboard-card clickable-card">
+                <strong></strong>
+                <span>Active Jobs</span>
+            </a>
+
+            <a href="/recruiter/applications" class="dashboard-card clickable-card">
+                <strong></strong>
+                <span>Applications</span>
+            </a>
+
+            <a href="/recruiter/shortlisted" class="dashboard-card clickable-card">
+                <strong></strong>
+                <span>Shortlisted</span>
+            </a>
+            <!-- Selected Candidates Card -->
+            <a href="{{ url_for('selected_candidates') }}" class="dashboard-card"
+                style="display:block; text-decoration:none; color:inherit;">
+
+                <h3>Selected</h3>
+                <p>View selected candidates</p>
+
+            </a>
+
+            <!-- Rejected Candidates Card -->
+            <a href="{{ url_for('rejected_candidates') }}" class="dashboard-card"
+                style="display:block; text-decoration:none; color:inherit;">
+
+                <h3>Rejected</h3>
+                <p>View rejected candidates</p>
+
+            </a>
+        </div>
+
+
+
+        <div class="dashboard-card">
+
+            <div>
+
+                <h3>
+                    Recruiter Controls
+                </h3>
+
+                <p>
+
+                    Manage candidate applications.
+
+                </p>
+
+            </div>
+
+            <a href="{{ url_for('recruiter_profile') }}" class="primary">
+                Manage Portal →
+            </a>
+
+        </div>
+
+
+
+        <h2>
+
+            Candidate Applications
+
+        </h2>
+
+
+
+        {% for application in applications %}
+
+
+        <div class="application-card">
+
+            <strong>
+
+                {{ application["name"] }}
+
+            </strong>
+
+
+            <span>
+
+                {{ application["email"] }}
+
+            </span>
+
+
+            <span>
+
+                Job ID:
+                #{{ application["job_id"] }}
+
+            </span>
+
+
+            <span class="status">
+
+                New
+
+            </span>
+
+        </div>
+
+
+        {% else %}
+
+        <p>
+
+            No applications yet.
+
+        </p>
+
+        {% endfor %}
+
+
+    </main>
+
+
+</body>
+
+</html>

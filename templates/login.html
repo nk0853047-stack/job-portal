@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>Login - jobportal</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body class="login-body">
+    <p class="register-link">
+
+        Don't have an account?
+
+        <a href="{{ url_for('register') }}">
+            Register Now
+        </a>
+
+    </p>
+
+
+    <div class="login-container">
+
+
+        <div class="login-logo">
+
+            <h1>
+                Job<span>portal</span>
+            </h1>
+
+        </div>
+
+
+
+        <div class="login-card">
+
+
+            <!-- ROLE BUTTONS -->
+
+            <div class="role-buttons">
+
+
+                <button type="button" class="role-btn active" onclick="selectRole('candidate', this)">
+
+                    👨‍🎓 Candidate
+
+                </button>
+
+
+
+                <button type="button" class="role-btn" onclick="selectRole('Recruiter', this)">
+
+                    🏢 Recruiter
+
+                </button>
+
+
+            </div>
+
+
+
+            <h2 id="loginTitle">
+
+                Candidate Login
+
+            </h2>
+
+
+            <p id="loginDescription" class="login-description">
+
+                Login to find and apply for jobs.
+
+            </p>
+
+
+
+            {% with messages = get_flashed_messages() %}
+
+            {% if messages %}
+
+            <div class="error">
+
+                {{ messages[0] }}
+
+            </div>
+
+            {% endif %}
+
+            {% endwith %}
+
+
+
+            <form method="POST" action="/login">
+
+
+                <input type="hidden" id="role" name="role" value="candidate">
+
+
+
+                <label>
+
+                    Email Address
+
+                </label>
+
+
+                <input type="email" name="email" placeholder="Enter your email" required>
+
+
+
+                <label>
+
+                    Password
+
+                </label>
+
+
+                <input type="password" name="password" placeholder="Enter password" required>
+
+
+
+                <button type="submit" class="login-submit">
+
+                    Login →
+
+                </button>
+
+
+            </form>
+            <a href="/" class="back">
+
+                ← Back to Home
+
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <script>
+
+        function selectRole(role, button) {
+
+            document
+                .getElementById("role")
+                .value = role;
+
+
+            document
+                .querySelectorAll(".role-btn")
+                .forEach(function (btn) {
+
+                    btn.classList.remove("active");
+
+                });
+
+
+            button.classList.add("active");
+
+
+
+            if (role === "candidate") {
+
+                document
+                    .getElementById("loginTitle")
+                    .innerText =
+                    "Candidate Login";
+
+
+                document
+                    .getElementById("loginDescription")
+                    .innerText =
+                    "Login to find and apply for internships.";
+
+
+                document
+                    .querySelector(".candidate-demo")
+                    .classList.remove("hidden");
+
+
+                document
+                    .querySelector(".owner-demo")
+                    .classList.add("hidden");
+
+            }
+
+
+            else {
+
+                document
+                    .getElementById("loginTitle")
+                    .innerText =
+                    "Owner Login";
+
+
+                document
+                    .getElementById("loginDescription")
+                    .innerText =
+                    "Login to manage jobs and candidates.";
+
+
+                document
+                    .querySelector(".candidate-demo")
+                    .classList.add("hidden");
+
+
+                document
+                    .querySelector(".owner-demo")
+                    .classList.remove("hidden");
+
+            }
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

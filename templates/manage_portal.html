@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Portal - Job Portal</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">
+            job<span>portal</span>
+        </div>
+
+        <div class="navlinks">
+            <a href="/">Website</a>
+            <a href="{{ url_for('Recruiter_dashboard') }}">Dashboard</a>
+            <a href="/logout" class="login-link">Logout</a>
+        </div>
+    </nav>
+
+    <main class="page">
+
+        <p class="eyebrow">RECRUITER PORTAL</p>
+
+        <h1>Manage Applications</h1>
+
+        <p class="muted">
+            View and manage candidate applications.
+        </p>
+
+        <h2>Candidate Applications</h2>
+
+        {% for application in applications %}
+
+        <div class="dashboard-card">
+
+            <h3>{{ application["name"] }}</h3>
+
+            <p>
+                <strong>Email:</strong>
+                {{ application["email"] }}
+            </p>
+
+            <p>
+                <strong>Job ID:</strong>
+                #{{ application["job_id"] }}
+            </p>
+
+            <p>
+                <strong>Status:</strong> New
+            </p>
+
+        </div>
+
+        {% else %}
+
+        <div class="dashboard-card">
+            <p>No applications received yet.</p>
+        </div>
+
+        {% endfor %}
+
+        <br>
+
+        <a href="{{ url_for('Recruiter_dashboard') }}" class="primary">
+            ← Back to Dashboard
+        </a>
+
+    </main>
+
+</body>
+
+</html>

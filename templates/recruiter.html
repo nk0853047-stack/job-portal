@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Recruiter Portal</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">
+            Job<span>Portal</span>
+        </div>
+
+        <div class="navlinks">
+            <a href="/">Home</a>
+            <a href="/jobs">Find Jobs</a>
+            <a href="/dashboard">Recruiter dashboard</a>
+        </div>
+    </nav>
+
+
+    <!-- Recruiter Page -->
+    <main class="page">
+
+        <p class="eyebrow">RECRUITER PORTAL</p>
+
+        <h1>Manage Job Opportunities</h1>
+        <!-- Post New Job Section -->
+        <div class="job-form-card">
+            <div class="form-heading">
+                <div class="form-icon">💼</div>
+                <div>
+                    <h2>Post a New Job</h2>
+                    <p>Find the right candidate for your organization</p>
+                </div>
+            </div>
+            <form method="POST" action="/post-job">
+                <div class="form-grid"> <!-- Job Title -->
+                    <div class="form-group"> <label>💼 Job Title</label> <input type="text" name="title"
+                            placeholder="e.g. Python Developer Intern" required> </div> <!-- Company -->
+                    <div class="form-group"> <label>🏢 Company Name</label> <input type="text" name="company"
+                            placeholder="e.g. TechNova Labs" required> </div> <!-- Location -->
+                    <div class="form-group"> <label>📍 Location</label> <input type="text" name="location"
+                            placeholder="e.g. Bengaluru / Remote" required> </div> <!-- Job Type -->
+                    <div class="form-group"> <label>🧑‍💼 Job Type</label> <select name="job_type" required>
+                            <option value="">Select Job Type</option>
+                            <option>Internship</option>
+                            <option>Full-time</option>
+                            <option>Part-time</option>
+                            <option>Contract</option>
+                        </select> </div> <!-- Salary -->
+                    <div class="form-group"> <label>💰 Salary / Stipend</label> <input type="text" name="salary"
+                            placeholder="e.g. ₹15,000 / month" required> </div> <!-- Duration -->
+                    <div class="form-group"> <label>⏱ Time</label> <input type="text" name="duration"
+                            placeholder="10:00Am to 6:00Pm" required> </div> <!-- Experience -->
+                    <div class="form-group"> <label>🎓 Experience Required</label> <select name="experience">
+                            <option value="">Select Experience</option>
+                            <option>Fresher</option>
+                            <option>0–1 Years</option>
+                            <option>1–2 Years</option>
+                            <option>2–5 Years</option>
+                            <option>5+ Years</option>
+                        </select> </div> <!-- Application Deadline -->
+                    <div class="form-group"> <label>📅 Application Deadline</label> <input type="date" name="deadline">
+                    </div>
+                </div> <!-- Skills -->
+                <div class="form-group full-width"> <label>🛠 Required Skills</label> <input type="text" name="skills"
+                        placeholder="e.g. Python, Flask, SQL, HTML, CSS" required> <small>Separate multiple skills using
+                        commas.</small> </div> <!-- Job Description -->
+                <div class="form-group full-width"> <label>📝 Job Description</label> <textarea name="description"
+                        rows="5" placeholder="Describe the role, responsibilities and requirements..."
+                        required></textarea> </div>
+                <!-- Buttons -->
+                <div class="form-buttons"> <button type="reset" class="clear-btn"> ↺ Clear </button> <button
+                        type="submit" class="post-btn"> 🚀 Post Job </button> </div>
+            </form>
+        </div>
+
+        <div class="dashboard-card">
+
+            <div class="dash-number">
+                {{ jobs|length }}
+            </div>
+
+            <div>
+                <h3>Active Opportunities</h3>
+
+                <p>
+                    Post jobs, review applications and find talented students.
+                </p>
+            </div>
+
+        </div>
+        <a href="/recruiter/active-jobs" class="dashboard-card clickable-card">
+
+            <div class="dash-number">
+                {{ jobs|length }}
+            </div>
+
+            <div>
+                <h3>Active Opportunities</h3>
+
+                <p>
+                    View and manage your active job postings.
+                </p>
+            </div>
+
+        </a>
+
+        <!-- Jobs List -->
+        <section style="margin-top: 30px;">
+
+            <h2>Available Jobs</h2>
+
+            {% if jobs %}
+
+            {% for job in jobs %}
+
+            <div class="dashboard-card" style="margin-top: 15px;">
+
+                <div>
+
+                    <h3>{{ job[1] }}</h3>
+
+                    <p>
+                        <strong>Company:</strong> {{ job[2] }}
+                    </p>
+
+                    <p>
+                        <strong>Location:</strong> {{ job[3] }}
+                    </p>
+
+                    <p>
+                        <strong>Salary:</strong> {{ job[4] }}
+                    </p>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+            {% else %}
+
+            <p>No jobs available yet.</p>
+
+            {% endif %}
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

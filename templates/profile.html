@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile - JobPortal</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        .profile-page {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .profile-card {
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-icon {
+            width: 85px;
+            height: 85px;
+            margin: auto;
+            border-radius: 50%;
+            background: #eef3ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+
+        .profile-header h1 {
+            margin: 15px 0 5px;
+        }
+
+        .profile-header p {
+            color: #666;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 7px;
+        }
+
+        input,
+        textarea {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 15px;
+        }
+
+        textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        .save-btn {
+            margin-top: 25px;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: #243fc5;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .save-btn:hover {
+            background: #182e9d;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            text-decoration: none;
+        }
+
+        @media(max-width: 700px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+        }
+
+        /* Success message popup at the top of the screen */
+        .success-message {
+            position: fixed !important;
+            top: 100px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+
+            width: 450px;
+            max-width: 90%;
+            min-height: 85px;
+            padding: 20px;
+
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+
+            background: #ffffff !important;
+            color: #087443 !important;
+
+            border: 1.5px solid #00c389;
+            border-radius: 18px;
+
+            font-size: 17px;
+            font-weight: 600;
+            text-align: center;
+
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            z-index: 99999;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">
+            job<span>portal</span>
+        </div>
+
+        <div class="navlinks">
+            <a href="{{ url_for('candidate_dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('jobs') }}">Find Jobs</a>
+            <a href="{{ url_for('profile') }}">My Profile</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </nav>
+
+    <main class="profile-page">
+
+        <a class="back-link" href="{{ url_for('candidate_dashboard') }}">
+            ← Back to Dashboard
+        </a>
+
+        <div class="profile-card">
+
+            <div class="profile-header">
+
+                <div class="profile-icon">
+                    👤
+                </div>
+
+                <h1>My Profile</h1>
+
+                <p>
+                    Complete your profile to improve your job applications.
+                </p>
+
+            </div>
+            <form method="POST" action="{{ url_for('profile') }}">
+
+                <div class="form-grid">
+
+                    <!-- Full Name -->
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" name="Name" value="{{ profile['Name'] if profile else '' }}"
+                            placeholder="Enter your name">
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="text" name="Email" value="{{ profile['Mail'] if profile else '' }}"
+                            placeholder="Enter your mail">
+                    </div>
+
+                    <!-- Phone Number -->
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="text" name="phone" value="{{ profile['phone'] if profile else '' }}"
+                            placeholder="Enter phone number">
+                    </div>
+
+                    <!-- 10th Qualification -->
+                    <div class="form-group">
+                        <label>10<sup>th</sup> Qualification</label>
+                        <input type="text" name="tenth"
+                            value="{{ profile['tenth'] if profile and 'tenth' in profile.keys() else '' }}"
+                            placeholder="Percentage">
+                    </div>
+
+                    <!-- 12th Qualification -->
+                    <div class="form-group">
+                        <label>12<sup>th</sup> Qualification</label>
+                        <input type="text" name="twelfth"
+                            value="{{ profile['twelfth'] if profile and 'twelfth' in profile.keys() else '' }}"
+                            placeholder="Percentage / P / C / M">
+                    </div>
+
+                    <!-- Graduation -->
+                    <div class="form-group">
+                        <label>Graduation Qualification</label>
+                        <input type="text" name="graduation"
+                            value="{{ profile['graduation'] if profile and 'graduation' in profile.keys() else '' }}"
+                            placeholder="CGPA">
+                    </div>
+
+                    <!-- Skills -->
+                    <div class="form-group">
+                        <label>Skills</label>
+                        <input type="text" name="skills" value="{{ profile['skills'] if profile else '' }}"
+                            placeholder="Python, Flask, HTML, CSS">
+                    </div>
+
+                    <!-- Location -->
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" name="location" value="{{ profile['location'] if profile else '' }}"
+                            placeholder="City, State">
+                    </div>
+
+                    <!-- About Me -->
+                    <div class="form-group full">
+                        <label>About Me</label>
+                        <textarea name="bio"
+                            placeholder="Write something about yourself...">{{ profile['bio'] if profile else '' }}</textarea>
+                    </div>
+
+                </div>
+
+                <button type="submit" class="save-btn">
+                    Save Profile
+                </button>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</body>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<div class="success-message">
+    <span>✓</span> {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+</html>

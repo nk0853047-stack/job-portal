@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Selected Candidates</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px 15px;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(120deg, #e8e8ff, #ffe8f6);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 765px;
+            margin: auto;
+        }
+
+        .header {
+            background: linear-gradient(120deg, #16a34a, #059669);
+            color: white;
+            padding: 25px;
+            border-radius: 14px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px #00000015;
+        }
+
+        .header h1 {
+            margin: 0 0 8px;
+            font-size: 27px;
+        }
+
+        .header p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .candidate {
+            background: white;
+            padding: 22px;
+            border-radius: 13px;
+            margin-bottom: 15px;
+            border-left: 5px solid #16a34a;
+            box-shadow: 0 5px 15px #00000010;
+        }
+
+        .candidate h3 {
+            margin: 0 0 12px;
+            color: #312e81;
+            text-transform: capitalize;
+        }
+
+        .candidate p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .badge {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 7px 12px;
+            border-radius: 20px;
+            background: #dcfce7;
+            color: #15803d;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 11px 16px;
+            background: #5145e5;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .empty {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header">
+            <h1>🎉 Selected Candidates</h1>
+            <p>Review candidates selected for your job opportunities.</p>
+        </div>
+
+        {% for candidate in candidates %}
+        <div class="candidate">
+
+            <h3>{{ candidate['name'] }}</h3>
+
+            <p>
+                <b>Email:</b>
+                {{ candidate['email'] }}
+            </p>
+
+            <p>
+                <b>Job ID:</b>
+                {{ candidate['job_id'] }}
+            </p>
+
+            <span class="badge">✓ Selected</span>
+
+        </div>
+
+        {% else %}
+        <div class="empty">
+            <h3>No Selected Candidates Yet</h3>
+            <p>Selected candidates will appear here.</p>
+        </div>
+        {% endfor %}
+
+        <a href="{{ url_for('Recruiter_dashboard') }}" class="back">
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+</body>
+
+</html>

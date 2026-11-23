@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Find jobs</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">Job<span>Portal</span></div>
+        <div class="navlinks"><a href="/">Home</a><a href="/jobs">Find Jobs</a><a href="/dashboard">My Applications</a><a class="login" href="/recruiter">Recruiter</a></div>
+    </nav>
+    <main class="page">
+        <p class="eyebrow">OPPORTUNITIES</p>
+        <h1>Find your next job</h1>
+        <form class="filterbar" action="/jobs"><input name="q" value="{{q}}"
+                placeholder="Search role, company or skill"><input name="location" value="{{location}}"
+                placeholder="Location"><button>Search</button></form>
+        <div class="grid">{% for job in jobs %}<article class="job-card">
+                <div class="company-icon">{{job[2][:2].upper()}}</div>
+                <div class="job-main"><span class="pill">{{job[3]}}</span>
+                    <h3>{{job[1]}}</h3>
+                    <p>{{job[2]}}</p>
+                    <div class="tags"><span>{{job[6].split(',')[0]}}</span><span>{{job[5]}}</span></div>
+                </div>
+                <div class="job-foot"><b>{{job[4]}}</b><a href="/job/{{job[0]}}">View Details</a></div>
+            </article>{% else %}<p>No jobs found. Try another search.</p>{% endfor %}</div>
+    </main>
+</body>
+
+</html>

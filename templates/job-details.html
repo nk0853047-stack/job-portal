@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{{job[1]}}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">Job<span>Portal</span></div>
+        <div class="navlinks"><a href="/">Home</a><a href="/jobs">Find jobs</a><a href="/dashboard">My
+                Applications</a></div>
+    </nav>
+    <main class="page detail"><span class="pill">{{job[3]}}</span>
+        <h1>{{job[1]}}</h1>
+        <p class="company">{{job[2]}}</p>
+        <div class="detail-box">
+            <div><b>Stipend</b><span>{{job[4]}}</span></div>
+            <div><b>Duration</b><span>{{job[5]}}</span></div>
+            <div><b>Qualification</b><span>{{job[6]}}</span></div>
+            <div><b>Skills</b><span>{{job[7]}}</span></div>
+        </div>
+        <h2>About the job</h2>
+        <p>Work with the team on real-world projects, learn from mentors and build practical experience. This
+            opportunity is designed for students and freshers who want to start their professional journey.</p>
+        <a class="primary" href="/apply/{{job[0]}}">Apply Now →</a>
+    </main>
+</body>
+
+</html>

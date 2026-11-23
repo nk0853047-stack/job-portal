@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Candidate Applications</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(120deg, #e0eaff, #fce4f3);
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .header {
+            background: linear-gradient(120deg, #4535d5, #9630ed);
+            color: white;
+            padding: 30px;
+            border-radius: 18px;
+            margin-bottom: 25px;
+        }
+
+        .application-card {
+            background: white;
+            padding: 25px;
+            border-radius: 18px;
+            margin-bottom: 20px;
+            border-left: 6px solid #685cff;
+            box-shadow: 0 8px 20px #00000010;
+        }
+
+        .application-card h2 {
+            color: #303b8c;
+        }
+
+        .resume-btn {
+            display: inline-block;
+            background: #194477;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            background: #5044e8;
+            color: white;
+            padding: 13px 22px;
+            border-radius: 9px;
+            text-decoration: none;
+        }
+
+        .empty {
+            background: white;
+            padding: 35px;
+            border-radius: 18px;
+            text-align: center;
+        }
+
+        .candidate-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .candidate-actions form {
+            margin: 0;
+        }
+
+        .candidate-actions button {
+            padding: 11px 16px;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-shortlist {
+            background: #f59e0b;
+        }
+
+        .btn-selected {
+            background: #16a34a;
+        }
+
+        .btn-rejected {
+            background: #dc2626;
+        }
+
+        .candidate-actions button:hover {
+            opacity: 0.85;
+            transform: translateY(-2px);
+        }
+
+        .status {
+            display: inline-block;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .status-pending {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .status-shortlisted {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-selected {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-rejected {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+
+            .application-card {
+                padding: 18px;
+            }
+
+            .candidate-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .candidate-actions button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header">
+            <h1>📄 Candidate Applications</h1>
+            <p>Review applications submitted by candidates.</p>
+        </div>
+
+        {% if applications %}
+
+        {% for application in applications %}
+
+        <div class="application-card">
+
+            <h2>Application #{{ application['id'] }}</h2>
+
+            <p>
+                <strong>Candidate:</strong>
+                {{ application['name'] }}
+            </p>
+
+            <p>
+                <strong>Email:</strong>
+                {{ application['email'] }}
+            </p>
+
+            <p>
+                <strong>Job ID:</strong>
+                {{ application['job_id'] }}
+            </p>
+
+            <p>
+                <strong>Current Status:</strong>
+
+                {% set current_status = application['status'] if 'status' in application.keys() and
+                application['status'] else 'Pending' %}
+
+                <span class="status
+                        {% if current_status == 'Shortlisted' %}
+                            status-shortlisted
+                        {% elif current_status == 'Selected' %}
+                            status-selected
+                        {% elif current_status == 'Rejected' %}
+                            status-rejected
+                        {% else %}
+                            status-pending
+                        {% endif %}">
+                    {{ current_status }}
+                </span>
+            </p>
+
+            {% if application['resume'] %}
+
+            <a class="resume-btn" href="{{ url_for('view_resume', filename=application['resume']) }}" target="_blank">
+                View Resume
+            </a>
+
+            {% else %}
+
+            <p>Resume not uploaded.</p>
+
+            {% endif %}
+
+            <div class="candidate-actions">
+
+                <!-- SHORTLIST -->
+                <form action="{{ url_for(
+                        'update_candidate_status',
+                        application_id=application['id'],
+                        status='Shortlisted'
+                    ) }}" method="POST">
+
+                    <button type="submit" class="btn-shortlist">
+                        ⭐ Shortlist Candidate
+                    </button>
+
+                </form>
+
+                <!-- SELECT -->
+                <form action="{{ url_for(
+                        'update_candidate_status',
+                        application_id=application['id'],
+                        status='Selected'
+                    ) }}" method="POST">
+
+                    <button type="submit" class="btn-selected">
+                        ✅ Selected
+                    </button>
+
+                </form>
+
+                <!-- REJECT -->
+                <form action="{{ url_for('update_candidate_status',
+                         application_id=application['id']) }}" method="POST">
+
+                    <input type="hidden" name="status" value="Rejected">
+
+                    <button type="submit" class="btn-rejected">
+                        ❌ Reject
+                    </button>
+                </form>
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+        {% else %}
+
+        <div class="empty">
+            <h2>No Applications Yet</h2>
+            <p>Candidate applications will appear here when submitted.</p>
+        </div>
+
+        {% endif %}
+
+        <br>
+
+        <a href="{{ url_for('Recruiter_dashboard') }}" class="back-btn">
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shortlisted Candidates</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            padding: 35px 20px;
+            background: linear-gradient(135deg, #e0e7ff, #fce7f3, #dbeafe);
+        }
+
+        .container {
+            max-width: 950px;
+            margin: auto;
+        }
+
+        .header {
+            padding: 28px;
+            margin-bottom: 25px;
+            color: white;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #4338ca, #7c3aed);
+            box-shadow: 0 8px 25px #4338ca30;
+        }
+
+        .header h1 {
+            margin-bottom: 10px;
+        }
+
+        .candidate-card {
+            background: white;
+            padding: 24px;
+            margin-bottom: 18px;
+            border-radius: 14px;
+            border-left: 6px solid #16a34a;
+            box-shadow: 0 5px 18px #00000010;
+        }
+
+        .candidate-card h2 {
+            color: #312e81;
+            margin-bottom: 14px;
+        }
+
+        .detail {
+            margin: 9px 0;
+            color: #475569;
+            overflow-wrap: anywhere;
+        }
+
+        .status {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 8px 13px;
+            border-radius: 20px;
+            color: #166534;
+            background: #dcfce7;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .empty {
+            background: white;
+            padding: 35px 20px;
+            border-radius: 15px;
+            text-align: center;
+            color: #64748b;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 20px;
+            color: white;
+            background: #4f46e5;
+            text-decoration: none;
+            border-radius: 9px;
+            font-weight: bold;
+        }
+
+        .back-btn:hover {
+            background: #3730a3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="header">
+            <h1>⭐ Shortlisted Candidates</h1>
+            <p>Review candidates shortlisted for your job opportunities.</p>
+        </div>
+
+        {% if applications %}
+
+        {% for app in applications %}
+
+        <div class="candidate-card">
+
+            <h2>
+                {{ app['candidate_name'] or app['name'] or 'Candidate' }}
+            </h2>
+
+            <p>
+                <strong>Email:</strong>
+                {{ app['email'] or 'Not provided' }}
+            </p>
+
+            <p>
+                <strong>Job ID:</strong>
+                {{ app['job_id'] }}
+            </p>
+
+            <span class="status">
+                ✓ Shortlisted
+            </span>
+
+        </div>
+
+        {% endfor %}
+
+        {% else %}
+
+        <div class="empty">
+            <h2>No Shortlisted Candidates Yet</h2>
+            <p>Shortlisted candidates will appear here.</p>
+        </div>
+
+        {% endif %}
+
+        <a href="{{ url_for('Recruiter_dashboard') }}" class="back-btn">← Back to Dashboard</a>
+
+    </div>
+</body>
+
+</html>

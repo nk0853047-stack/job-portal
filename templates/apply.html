@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Apply - {{job[1]}}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">Job<span>portal</span></div>
+        <div class="navlinks"><a href="/">Home</a><a href="/jobs">Find jobs</a></div>
+    </nav>
+    <main class="form-page">
+        <div class="form-card">
+            <p class="eyebrow">APPLICATION</p>
+            <h1>Apply for {{job[1]}}</h1>
+            <p>{{job[2]}} · {{job[3]}}</p>
+            <form method="post" enctype="multipart/form-data"><label>Full Name<input required name="name"
+                        placeholder="Enter your name"></label><label>Mobile<input required pety="Mobile" name="Mobile"
+                        placeholder="Enter Mobile number"></label><label>Email<input required pety="email" name="email"
+                        placeholder="you@example.com"></label><label>Qualification<input required pety="Qualification"
+                        name="Qualification" placeholder="Enter qualification"></label><label>Experience<input required
+                        pety="Experience" name="Experience" placeholder="Enter experience"></label><label>Resume
+                    (PDF)<input type="file" name="resume" accept=".pdf,.doc,.docx"></label><button
+                    class="primary full">Submit Application</button></form>
+        </div>
+    </main>
+</body>
+<!-- Application Success Popup -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+
+<div id="successPopup" class="success-popup">
+    <div class="popup-icon">🎉</div>
+
+    <h2>{{ message }}</h2>
+
+    <p>Your application has been submitted successfully.</p>
+
+    <button onclick="closePopup()">OK</button>
+</div>
+
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+</html>
