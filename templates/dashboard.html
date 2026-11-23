@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Applications</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">Job<span>Portal</span></div>
+        <div class="navlinks"><a href="/">Home</a><a href="/jobs">Find jobs</a><a href="/dashboard">My Applications</a>
+        </div>
+    </nav>
+    <main class="page">
+        <p class="eyebrow">DASHBOARD</p>
+        <h1>Application Overview</h1>
+        <div class="dashboard-card">
+            <div class="dash-number">{{applications|length}}</div>
+            <div>
+                <h3>Applications submitted</h3>
+                <p>Track your job applications here.</p>
+            </div>
+        </div>
+        {% for a in applications %}<div class="application"><b>{{a['name']}}</b><span>{{a['email']}}</span><span>Job ID
+                #{{a['job_id']}}</span><span class="status">Submitted</span></div>{% else %}<p>No applications yet. <a
+                href="/jobs">Browse jobs →</a></p>{% endfor %}
+    </main>
+</body>
+
+</html>
